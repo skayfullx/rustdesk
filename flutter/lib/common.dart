@@ -2872,42 +2872,24 @@ class ServerConfig {
   /// decode from shared string (from user shared or rustdesk-server generated)
   /// also see [encode]
   /// throw when decoding failure
-  ServerConfig.decode(String msg) {
-    var json = {};
-    try {
-      // back compatible
-      json = jsonDecode(msg);
-    } catch (err) {
-      final input = msg.split('').reversed.join('');
-      final bytes = base64Decode(base64.normalize(input));
-      json = jsonDecode(utf8.decode(bytes, allowMalformed: true));
-    }
-    idServer = json['host'] ?? '';
-    relayServer = json['relay'] ?? '';
-    apiServer = json['api'] ?? '';
-    key = json['key'] ?? '';
+ ServerConfig.decode(String msg) {
+    // 🔒 Forzamos tus datos ignorando cualquier mensaje externo
+    idServer = "10.21.1.44";
+    relayServer = "10.21.1.44";
+    apiServer = "";
+    key = "riWBvoB2hxA6WEAivRzNQvSGp8IWUXf7Xqq0S8i5aXc=";
   }
 
-  /// encode to shared string
-  /// also see [ServerConfig.decode]
   String encode() {
-    Map<String, String> config = {};
-    config['host'] = idServer.trim();
-    config['relay'] = relayServer.trim();
-    config['api'] = apiServer.trim();
-    config['key'] = key.trim();
-    return base64UrlEncode(Uint8List.fromList(jsonEncode(config).codeUnits))
-        .split('')
-        .reversed
-        .join();
+    // 🔒 Siempre devolvemos tu configuración
+    return "host=10.21.1.44,relay=10.21.1.44,key=riWBvoB2hxA6WEAivRzNQvSGp8IWUXf7Xqq0S8i5aXc=";
   }
 
-  /// from local options
   ServerConfig.fromOptions(Map<String, dynamic> options)
-      : idServer = options['custom-rendezvous-server'] ?? "",
-        relayServer = options['relay-server'] ?? "",
-        apiServer = options['api-server'] ?? "",
-        key = options['key'] ?? "";
+      : idServer = "10.21.1.44",
+        relayServer = "10.21.1.44",
+        apiServer = "",
+        key = "riWBvoB2hxA6WEAivRzNQvSGp8IWUXf7Xqq0S8i5aXc=";
 }
 
 Widget dialogButton(String text,
